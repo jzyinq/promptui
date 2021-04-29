@@ -128,6 +128,7 @@ func (p *Prompt) Run() (string, error) {
 		HistoryLimit:   -1,
 		VimMode:        p.IsVimMode,
 		UniqueEditLine: true,
+		EOFPrompt: "\n",
 	}
 
 	err = c.Init()
@@ -192,18 +193,21 @@ func (p *Prompt) Run() (string, error) {
 	c.SetListener(listen)
 
 	for {
-		_, err = rl.Readline() // FIXME readline freaks out on delete key - don't know why
+		_, err = rl.Readline() // FIXME readline freaks out on delete key - don't know why https://github.com/chzyer/readline/issues/187
 		inputErr = validFn(cur.Get())
 		if inputErr == nil {
 			break
 		}
 
-		if err != nil && err != io.EOF {
+		if err != nil {
+			if err == io.EOF {
+				continue
+			}
 			break
 		}
 	}
 
-	if err != nil && err != io.EOF {
+	if err != nil {
 		switch err {
 		case readline.ErrInterrupt:
 			err = ErrInterrupt
