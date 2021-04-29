@@ -196,6 +196,26 @@ func (c *Cursor) Backspace() {
 	c.Move(-1)
 }
 
+// Delete removes the rune that succeeds the cursor
+//
+// It handles being at the beginning or end of the row, and moves the cursor to
+// the appropriate position.
+func (c *Cursor) Delete() {
+	a := c.input
+	i := c.Position
+	if i == 0 {
+		// Shrug
+		return
+	}
+	if i == len(a) {
+		c.input = a[:i+1]
+	} else {
+		c.input = append(a[:i+1], a[i:]...)
+	}
+	// now it's pointing to the i+1th element
+	c.Move(+1)
+}
+
 // Listen is a readline Listener that updates internal cursor state appropriately.
 func (c *Cursor) Listen(line []rune, pos int, key rune) ([]rune, int, bool) {
 	if line != nil {
@@ -213,6 +233,12 @@ func (c *Cursor) Listen(line []rune, pos int, key rune) ([]rune, int, bool) {
 			c.Replace("")
 		}
 		c.Backspace()
+	case KeyDelete:
+		if c.erase {
+			c.erase = false
+			c.Replace("")
+		}
+		c.Delete()
 	case KeyForward:
 		// the user wants to edit the default, despite how we set it up. Let
 		// them.
