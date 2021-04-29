@@ -26,4 +26,6 @@ var (
 	// KeyForward is the default key to page down during selection.
 	KeyForward        rune = readline.CharForward
 	KeyForwardDisplay      = "→"
+
+	KeyDelete rune = readline.CharDelete
 )
