@@ -2,6 +2,7 @@ package promptui
 
 import (
 	"fmt"
+	"log"
 	"strings"
 )
 
@@ -232,6 +233,7 @@ func (c *Cursor) Listen(line []rune, pos int, key rune) ([]rune, int, bool) {
 			c.erase = false
 			c.Replace("")
 		}
+		log.Println("test if it's using fork")
 		c.Backspace()
 	case KeyDelete:
 		if c.erase {
