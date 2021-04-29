@@ -198,12 +198,12 @@ func (p *Prompt) Run() (string, error) {
 			break
 		}
 
-		if err != nil {
+		if err != nil && err != io.EOF {
 			break
 		}
 	}
 
-	if err != nil {
+	if err != nil && err != io.EOF {
 		switch err {
 		case readline.ErrInterrupt:
 			err = ErrInterrupt

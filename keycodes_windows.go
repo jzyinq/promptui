@@ -7,4 +7,5 @@ package promptui
 var (
 	// KeyBackspace is the default key for deleting input text inside a command line prompt.
 	KeyBackspace rune = 8
+	KeyDelete rune = 46
 )
