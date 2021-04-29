@@ -2,7 +2,6 @@ package promptui
 
 import (
 	"fmt"
-	"log"
 	"strings"
 )
 
@@ -219,9 +218,9 @@ func (c *Cursor) Listen(line []rune, pos int, key rune) ([]rune, int, bool) {
 			c.erase = false
 			c.Replace("")
 		}
-		log.Println("%s", c.input)
+		//log.Println("%s", c.input)
 		c.Delete()
-		log.Fatalln("%s", c.input)
+		//log.Fatalln("%s", c.input)
 	case KeyForward:
 		// the user wants to edit the default, despite how we set it up. Let
 		// them.
